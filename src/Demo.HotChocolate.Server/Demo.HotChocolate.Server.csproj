@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Demo.HotChocolate.Server.Data\Demo.HotChocolate.Server.Data.csproj" />
+    <ProjectReference Include="..\Demo.HotChocolate.Server.GraphQL\Demo.HotChocolate.Server.GraphQL.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

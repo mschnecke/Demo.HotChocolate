@@ -5,13 +5,19 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.HotChocolate.Server", "src\Demo.HotChocolate.Server\Demo.HotChocolate.Server.csproj", "{AA9067B0-D8F8-4B13-8149-900BB7714AC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.HotChocolate.Server.Data", "src\Demo.HotChocolate.Server.Data\Demo.HotChocolate.Server.Data.csproj", "{F719CB84-2DF2-40A8-B9DE-08DE0EA1637E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.HotChocolate.Server.Data", "src\Demo.HotChocolate.Server.Data\Demo.HotChocolate.Server.Data.csproj", "{F719CB84-2DF2-40A8-B9DE-08DE0EA1637E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.HotChocolate.Server.Domain", "src\Demo.HotChocolate.Server.Domain\Demo.HotChocolate.Server.Domain.csproj", "{FC827415-FE31-4967-96E9-274096AB7C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.HotChocolate.Server.Domain", "src\Demo.HotChocolate.Server.Domain\Demo.HotChocolate.Server.Domain.csproj", "{FC827415-FE31-4967-96E9-274096AB7C9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.HotChocolate.Server.Data.Tests", "tests\Demo.HotChocolate.Server.Data.Tests\Demo.HotChocolate.Server.Data.Tests.csproj", "{3822D831-E13E-48C6-ABA8-58578693C721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.HotChocolate.Server.Data.Tests", "tests\Demo.HotChocolate.Server.Data.Tests\Demo.HotChocolate.Server.Data.Tests.csproj", "{3822D831-E13E-48C6-ABA8-58578693C721}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{61C76AAD-72C2-4D98-B414-CE55CA5919CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.HotChocolate.Server.GraphQL", "src\Demo.HotChocolate.Server.GraphQL\Demo.HotChocolate.Server.GraphQL.csproj", "{C3FF9EE6-4B63-4884-8036-B38884A43242}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.HotChocolate.Server.Transport", "src\Demo.HotChocolate.Server.Transport\Demo.HotChocolate.Server.Transport.csproj", "{F40A6C30-4DA7-4CFE-9E6B-13DB2D87C6B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.HotChocolate.Server.GraphQL.Tests", "tests\Demo.HotChocolate.Server.GraphQL.Tests\Demo.HotChocolate.Server.GraphQL.Tests.csproj", "{96B9ACF7-679B-440E-8CB2-9DD69208E4B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +41,25 @@ Global
 		{3822D831-E13E-48C6-ABA8-58578693C721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3822D831-E13E-48C6-ABA8-58578693C721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3822D831-E13E-48C6-ABA8-58578693C721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3FF9EE6-4B63-4884-8036-B38884A43242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3FF9EE6-4B63-4884-8036-B38884A43242}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3FF9EE6-4B63-4884-8036-B38884A43242}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3FF9EE6-4B63-4884-8036-B38884A43242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F40A6C30-4DA7-4CFE-9E6B-13DB2D87C6B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F40A6C30-4DA7-4CFE-9E6B-13DB2D87C6B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F40A6C30-4DA7-4CFE-9E6B-13DB2D87C6B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F40A6C30-4DA7-4CFE-9E6B-13DB2D87C6B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B9ACF7-679B-440E-8CB2-9DD69208E4B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B9ACF7-679B-440E-8CB2-9DD69208E4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B9ACF7-679B-440E-8CB2-9DD69208E4B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B9ACF7-679B-440E-8CB2-9DD69208E4B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3822D831-E13E-48C6-ABA8-58578693C721} = {61C76AAD-72C2-4D98-B414-CE55CA5919CC}
+		{96B9ACF7-679B-440E-8CB2-9DD69208E4B8} = {61C76AAD-72C2-4D98-B414-CE55CA5919CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E35FAD3-9B30-4EE2-8602-FF97997D9DBE}

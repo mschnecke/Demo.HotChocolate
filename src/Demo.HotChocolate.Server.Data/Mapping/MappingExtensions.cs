@@ -11,18 +11,22 @@ using System.Runtime.CompilerServices;
 namespace Demo.HotChocolate.Server.Data.Mapping
 {
 	using AutoMapper;
+	using AutoMapper.Extensions.ExpressionMapping;
 	using Demo.HotChocolate.Server.Data.Models;
 	using Demo.HotChocolate.Server.Domain.Models;
 
 	internal static class MappingExtensions
 	{
-		static MappingExtensions()
-		{
-			Mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>())
-				.CreateMapper();
-		}
 
 		internal static IMapper Mapper { get; }
+		static MappingExtensions()
+		{
+			Mapper = new MapperConfiguration(cfg => {
+				                                 cfg.AddExpressionMapping();
+				                                 cfg.AddProfile<MappingProfile>();
+			                                 })
+				.CreateMapper();
+		}
 
 		public static User ToModel(this UserDbo entity)
 		{

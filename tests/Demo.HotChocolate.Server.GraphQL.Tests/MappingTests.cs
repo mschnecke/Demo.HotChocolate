@@ -4,12 +4,12 @@
 //  </copyright>
 // ----------------------------------------------------------------------------------------
 
-namespace Demo.HotChocolate.Server.Data.Tests
+namespace Demo.HotChocolate.Server.GraphQL.Tests
 {
 	using System;
 	using AutoMapper;
-	using Demo.HotChocolate.Server.Data.Mapping;
 	using Demo.HotChocolate.Server.Domain.Models;
+    using Demo.HotChocolate.Server.GraphQL.Mapping;
 	using FluentAssertions;
 	using Xunit;
 
@@ -18,10 +18,9 @@ namespace Demo.HotChocolate.Server.Data.Tests
 		public MappingTests()
 		{
 			this.mapper =
-				new MapperConfiguration(cfg =>
-				{
-					cfg.AddProfile<MappingProfile>();
-				})
+				new MapperConfiguration(cfg => {
+					                        cfg.AddProfile<MappingProfile>();
+				                        })
 					.CreateMapper();
 		}
 
@@ -46,8 +45,8 @@ namespace Demo.HotChocolate.Server.Data.Tests
 			expected.ZipCode = 12345;
 
 			// act
-			var entity = expected.ToEntity();
-			var result = entity.ToModel();
+			var dto = expected.ToTransport();
+			var result = dto.ToModel();
 
 			// assert
 			result.BirthDate.Should().Be(expected.BirthDate);
