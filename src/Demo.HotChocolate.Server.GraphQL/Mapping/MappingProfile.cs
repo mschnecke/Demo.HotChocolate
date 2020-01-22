@@ -4,20 +4,20 @@
 //  </copyright>
 // ----------------------------------------------------------------------------------------
 
-namespace Demo.HotChocolate.Server.Data.Mapping
+namespace Demo.HotChocolate.Server.GraphQL.Mapping
 {
 	using AutoMapper;
-	using Demo.HotChocolate.Server.Data.Models;
 	using Demo.HotChocolate.Server.Domain.Models;
+	using Demo.HotChocolate.Server.Transport;
 
 	internal class MappingProfile : Profile
 	{
 		public MappingProfile()
 		{
-			this.CreateMap<User, UserDbo>()
+			this.CreateMap<User, UserDto>()
 				.ReverseMap();
 
-			this.CreateMap<Gender, GenderDbo>()
+			this.CreateMap<Gender, GenderDto>()
 				.ReverseMap();
 		}
 	}

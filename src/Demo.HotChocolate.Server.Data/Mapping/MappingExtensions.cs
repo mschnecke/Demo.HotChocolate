@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 namespace Demo.HotChocolate.Server.Data.Mapping
 {
 	using AutoMapper;
+	using AutoMapper.Extensions.ExpressionMapping;
 	using Demo.HotChocolate.Server.Data.Models;
 	using Demo.HotChocolate.Server.Domain.Models;
 
@@ -20,7 +21,10 @@ namespace Demo.HotChocolate.Server.Data.Mapping
 		internal static IMapper Mapper { get; }
 		static MappingExtensions()
 		{
-			Mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>())
+			Mapper = new MapperConfiguration(cfg => {
+				                                 cfg.AddExpressionMapping();
+				                                 cfg.AddProfile<MappingProfile>();
+			                                 })
 				.CreateMapper();
 		}
 
