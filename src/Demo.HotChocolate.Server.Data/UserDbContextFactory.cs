@@ -20,7 +20,7 @@ namespace Demo.HotChocolate.Server.Data
 			typeof(UserDbContext).GetTypeInfo().Assembly.GetName().Name;
 	}
 
-	// dotnet ef migrations add CreateInitSchema -o ./Data/Migrations --start
+	// dotnet ef migrations add CreateInitSchema -o ./Migrations --startup-project ..\Demo.HotChocolate.Server\Demo.HotChocolate.Server.csproj
 	internal class UserDbContextFactory : IDesignTimeDbContextFactory<UserDbContext>
 	{
 		UserDbContext IDesignTimeDbContextFactory<UserDbContext>.CreateDbContext(string[] args)
