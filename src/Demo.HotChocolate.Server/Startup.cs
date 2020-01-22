@@ -6,6 +6,8 @@
 
 namespace Demo.HotChocolate.Server
 {
+	using System;
+	using System.IO;
 	using Demo.HotChocolate.Server.Data;
 	using Demo.HotChocolate.Server.Domain;
 	using Microsoft.AspNetCore.Builder;
@@ -27,14 +29,17 @@ namespace Demo.HotChocolate.Server
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			//services.ConfigureDatabase("Filename=MyDatabase.db");
-			//services.AddTransient<IUserRepository, UserRepository>();
+			var path = "MyDatabase.db";
+
+			services.ConfigureDatabase($"Filename={path}");
+			services.AddTransient<IUserRepository, UserRepository>();
 
 			services.AddCors();
 			// In production, the Angular files will be served from this directory
-			services.AddSpaStaticFiles(configuration => {
-				                           configuration.RootPath = "ClientApp/dist";
-			                           });
+			services.AddSpaStaticFiles(configuration =>
+			{
+				configuration.RootPath = "ClientApp/dist";
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,11 +56,12 @@ namespace Demo.HotChocolate.Server
 				app.UseHsts();
 			}
 
-			app.UseCors(builder => {
-				            builder.AllowAnyOrigin();
-				            builder.AllowAnyHeader();
-				            builder.AllowAnyMethod();
-			            });
+			app.UseCors(builder =>
+			{
+				builder.AllowAnyOrigin();
+				builder.AllowAnyHeader();
+				builder.AllowAnyMethod();
+			});
 
 			app.UseStaticFiles();
 			if (!env.IsDevelopment())
@@ -65,17 +71,18 @@ namespace Demo.HotChocolate.Server
 
 			app.UseRouting();
 
-			app.UseSpa(spa => {
-				           // To learn more about options for serving an Angular SPA from ASP.NET Core,
-				           // see https://go.microsoft.com/fwlink/?linkid=864501
+			app.UseSpa(spa =>
+			{
+				// To learn more about options for serving an Angular SPA from ASP.NET Core,
+				// see https://go.microsoft.com/fwlink/?linkid=864501
 
-				           spa.Options.SourcePath = "ClientApp";
+				spa.Options.SourcePath = "ClientApp";
 
-				           if (env.IsDevelopment())
-				           {
-					           spa.UseAngularCliServer("start");
-				           }
-			           });
+				if (env.IsDevelopment())
+				{
+					spa.UseAngularCliServer("start");
+				}
+			});
 		}
 	}
 }

@@ -16,11 +16,11 @@ namespace Microsoft.Extensions.DependencyInjection
 		public static IServiceCollection ConfigureDatabase(this IServiceCollection services, string connectionString)
 		{
 			return services.AddDbContext<UserDbContext>(options =>
-				                                            options.UseSqlite(
-					                                            connectionString,
-					                                            b =>
-						                                            b.MigrationsAssembly(Contants.MigrationsAssembly)),
-				ServiceLifetime.Transient);
+															options.UseSqlite(
+																connectionString,
+																b =>
+																	b.MigrationsAssembly(Contants.MigrationsAssembly)),
+				ServiceLifetime.Transient, ServiceLifetime.Transient);
 		}
 	}
 }

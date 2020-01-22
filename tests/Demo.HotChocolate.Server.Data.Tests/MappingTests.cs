@@ -18,9 +18,10 @@ namespace Demo.HotChocolate.Server.Data.Tests
 		public MappingTests()
 		{
 			this.mapper =
-				new MapperConfiguration(cfg => {
-					                        cfg.AddProfile<MappingProfile>();
-				                        })
+				new MapperConfiguration(cfg =>
+				{
+					cfg.AddProfile<MappingProfile>();
+				})
 					.CreateMapper();
 		}
 
