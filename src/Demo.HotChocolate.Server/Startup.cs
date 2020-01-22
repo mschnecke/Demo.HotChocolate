@@ -25,7 +25,10 @@ namespace Demo.HotChocolate.Server
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllersWithViews();
+			services.ConfigureDatabase("Filename=MyDatabase.db");
+
+			services.AddCors();
+
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles(configuration => {
 				                           configuration.RootPath = "ClientApp/dist";
@@ -46,7 +49,12 @@ namespace Demo.HotChocolate.Server
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+			app.UseCors(builder => {
+				            builder.AllowAnyOrigin();
+				            builder.AllowAnyHeader();
+				            builder.AllowAnyMethod();
+			            });
+
 			app.UseStaticFiles();
 			if (!env.IsDevelopment())
 			{
@@ -54,12 +62,6 @@ namespace Demo.HotChocolate.Server
 			}
 
 			app.UseRouting();
-
-			app.UseEndpoints(endpoints => {
-				                 endpoints.MapControllerRoute(
-					                 "default",
-					                 "{controller}/{action=Index}/{id?}");
-			                 });
 
 			app.UseSpa(spa => {
 				           // To learn more about options for serving an Angular SPA from ASP.NET Core,
