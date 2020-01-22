@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			services.AddGraphQL(serviceProvider => SchemaBuilder.New()
 									.AddServices(serviceProvider)
-									.AddQueryType<Query>()
+									.AddQueryType<QueryType>()
 									.AddType<UserType>()
 									.Create(),
 					new QueryExecutionOptions
