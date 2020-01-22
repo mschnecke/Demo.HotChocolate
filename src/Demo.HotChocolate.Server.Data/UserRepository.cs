@@ -35,7 +35,7 @@ namespace Demo.HotChocolate.Server.Data
 		}
 
 		/// <inheritdoc />
-		public IQueryable<User> GetAllUsers()
+		public IQueryable<User> GetUsers()
 		{
 			return this.dbContext
 				.Users
@@ -55,7 +55,24 @@ namespace Demo.HotChocolate.Server.Data
 			this.dbContext.SaveChanges();
 		}
 
+		/*
+				/// <inheritdoc />
+				public IQueryable<User> GetUsers(Expression<Func<User, bool>> func)
+				{
+					var func_ = MappingExtensions.Mapper.Map<Expression<Func<UserDbo, bool>>>(func);
+					return dbContext.Users.Where(func_).Select(x => x.ToModel());
+				}*/
+
 		/// <inheritdoc />
+		public IQueryable<User> GetUsers(Expression<Func<User, bool>> expression)
+		{
+			var mappedExpression = MappingExtensions.Mapper.Map<Expression<Func<UserDbo, bool>>>(expression);
+
+			// return this.dbContext.Users.UseAsDataSource(configuration).For<User>().Where(mappedExpression).AsQueryable();
+
+			return this.dbContext.Users.Where(mappedExpression).Select(x => x.ToModel());
+		}
+
 		public void AddUser(User user)
 		{
 			this.dbContext.Users.Add(user.ToEntity());
@@ -66,16 +83,6 @@ namespace Demo.HotChocolate.Server.Data
 		public IQueryable<User> GetUsers(string name)
 		{
 			return this.dbContext.Users.Where(x => x.FirstName.Equals(name)).Select(x => x.ToModel());
-		}
-
-		/// <inheritdoc />
-		public IQueryable<User> GetUsers(Expression<Func<User, bool>> expression)
-		{
-			var mappedExpression = MappingExtensions.Mapper.Map<Expression<Func<UserDbo, bool>>>(expression);
-			
-			// return this.dbContext.Users.UseAsDataSource(configuration).For<User>().Where(mappedExpression).AsQueryable();
-			
-			return this.dbContext.Users.Where(mappedExpression).Select(x => x.ToModel());
 		}
 
 		public void Clear()

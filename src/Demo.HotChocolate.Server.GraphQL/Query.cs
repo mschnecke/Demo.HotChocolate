@@ -19,7 +19,7 @@ namespace Demo.HotChocolate.Server.GraphQL
 		public IEnumerable<UserDto> GetUsers([Service] IUserRepository repository)
 		{
 			return repository
-				.GetAllUsers()
+				.GetUsers()
 				.ProjectTo<UserDto>(MappingExtensions.Mapper.ConfigurationProvider)
 				.ToList();
 		}
