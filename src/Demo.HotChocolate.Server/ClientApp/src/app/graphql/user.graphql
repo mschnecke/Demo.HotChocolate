@@ -1,0 +1,36 @@
+query getUsers(
+  $after: String
+  $before: String
+  $first: PaginationAmount
+  $last: PaginationAmount
+  $where: UserDtoFilter
+) {
+  users(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    where: $where
+  ) {
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+      node {
+        birthDate
+        email
+        firstName
+        gender
+        id
+        isMale
+        lastName
+        zipCode
+      }
+    }
+  }
+}

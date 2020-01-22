@@ -13,9 +13,11 @@ namespace Demo.HotChocolate.Server.GraphQL
 	using Demo.HotChocolate.Server.Transport;
 	using global::HotChocolate;
 	using global::HotChocolate.Types;
+    using global::HotChocolate.Types.Relay;
 
-	public class Query
+    public class Query
 	{
+		[UsePaging]
 		[UseFiltering]
 		public IEnumerable<UserDto> GetUsers([Service] IUserRepository repository)
 		{

@@ -8,6 +8,8 @@ import { ClarityModule } from '@clr/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './layout/navigation/navigation.component';
+import { GraphQLModule } from './graphql.module';
+
 
 @NgModule({
   declarations: [AppComponent, NavigationComponent],
@@ -17,7 +19,8 @@ import { NavigationComponent } from './layout/navigation/navigation.component';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ClarityModule
+    ClarityModule,
+    GraphQLModule
   ],
   providers: [],
   bootstrap: [AppComponent]
