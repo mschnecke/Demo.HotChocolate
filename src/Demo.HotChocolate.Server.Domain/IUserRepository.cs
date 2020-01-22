@@ -1,4 +1,10 @@
-﻿using System;
+﻿// ----------------------------------------------------------------------------------------
+//  <copyright file="IUserRepository.cs" company="pisum.net">
+//     Copyright (c) 2020, pisum.net. All rights reserved.
+//  </copyright>
+// ----------------------------------------------------------------------------------------
+
+
 // ----------------------------------------------------------------------------------------
 //  <copyright file="IUserRepository.cs" company="pisum.net">
 //     Copyright (c) 2020, pisum.net. All rights reserved.
@@ -7,8 +13,10 @@
 
 namespace Demo.HotChocolate.Server.Domain
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Linq.Expressions;
 	using Demo.HotChocolate.Server.Domain.Models;
 
 	/// <summary>
@@ -21,6 +29,13 @@ namespace Demo.HotChocolate.Server.Domain
 		/// </summary>
 		/// <returns></returns>
 		IQueryable<User> GetUsers();
+
+		/// <summary>
+		/// Gets the users.
+		/// </summary>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		IQueryable<User> GetUsers(Expression<Func<User, bool>> expression);
 
 		/// <summary>
 		/// Get a single user.
