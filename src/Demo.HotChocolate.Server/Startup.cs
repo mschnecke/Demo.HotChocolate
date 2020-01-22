@@ -7,6 +7,7 @@
 namespace Demo.HotChocolate.Server
 {
 	using System;
+	using System.IO;
 	using Demo.HotChocolate.Server.Data;
 	using Demo.HotChocolate.Server.Domain;
 	using Microsoft.AspNetCore.Builder;
@@ -29,16 +30,19 @@ namespace Demo.HotChocolate.Server
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.ConfigureDatabase("Filename=MyDatabase.db");
+			var path = "MyDatabase.db";
+
+			services.ConfigureDatabase($"Filename={path}");
 			services.AddTransient<IUserRepository, UserRepository>();
 
 			services.ConfigureGraphQL();
 
 			services.AddCors();
 			// In production, the Angular files will be served from this directory
-			services.AddSpaStaticFiles(configuration => {
-				                           configuration.RootPath = "ClientApp/dist";
-			                           });
+			services.AddSpaStaticFiles(configuration =>
+			{
+				configuration.RootPath = "ClientApp/dist";
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,11 +69,12 @@ namespace Demo.HotChocolate.Server
 			{
 			}
 
-			app.UseCors(builder => {
-				            builder.AllowAnyOrigin();
-				            builder.AllowAnyHeader();
-				            builder.AllowAnyMethod();
-			            });
+			app.UseCors(builder =>
+			{
+				builder.AllowAnyOrigin();
+				builder.AllowAnyHeader();
+				builder.AllowAnyMethod();
+			});
 
 			app.UseStaticFiles();
 			if (!env.IsDevelopment())
