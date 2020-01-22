@@ -7,6 +7,8 @@ using Xunit;
 
 namespace Demo.HotChocolate.Server.Data.Tests
 {
+	using FluentAssertions;
+
 	public class UserRepositoryTest
 	{
 		private UserDbContext dbContext;
@@ -67,6 +69,14 @@ namespace Demo.HotChocolate.Server.Data.Tests
 			expected.ZipCode = 12345;
 
 			repository.AddUser(expected);
+
+
+			var bla = this.repository.GetUsers(x => x.Email == expected.Email);
+
+			var user = bla.FirstOrDefault();
+
+
+			user.Email.Should().BeEquivalentTo(expected.Email);
 		}
 
 		static void MoveOldDBFile(String path)

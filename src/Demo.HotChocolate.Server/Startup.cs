@@ -7,13 +7,17 @@
 namespace Demo.HotChocolate.Server
 {
 	using System;
-	using System.IO;
+	using Bogus;
+	using Bogus.DataSets;
 	using Demo.HotChocolate.Server.Data;
 	using Demo.HotChocolate.Server.Domain;
+	using Demo.HotChocolate.Server.Domain.Models;
+	using Demo.HotChocolate.Server.Extensions;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Hosting;
 	using Microsoft.AspNetCore.SpaServices.AngularCli;
 	using Microsoft.EntityFrameworkCore;
+	using Microsoft.EntityFrameworkCore.Internal;
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Hosting;
@@ -31,7 +35,6 @@ namespace Demo.HotChocolate.Server
 		public void ConfigureServices(IServiceCollection services)
 		{
 			var path = "MyDatabase.db";
-
 			services.ConfigureDatabase($"Filename={path}");
 			services.AddTransient<IUserRepository, UserRepository>();
 
@@ -39,10 +42,9 @@ namespace Demo.HotChocolate.Server
 
 			services.AddCors();
 			// In production, the Angular files will be served from this directory
-			services.AddSpaStaticFiles(configuration =>
-			{
-				configuration.RootPath = "ClientApp/dist";
-			});
+			services.AddSpaStaticFiles(configuration => {
+				                           configuration.RootPath = "ClientApp/dist";
+			                           });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,12 +71,11 @@ namespace Demo.HotChocolate.Server
 			{
 			}
 
-			app.UseCors(builder =>
-			{
-				builder.AllowAnyOrigin();
-				builder.AllowAnyHeader();
-				builder.AllowAnyMethod();
-			});
+			app.UseCors(builder => {
+				            builder.AllowAnyOrigin();
+				            builder.AllowAnyHeader();
+				            builder.AllowAnyMethod();
+			            });
 
 			app.UseStaticFiles();
 			if (!env.IsDevelopment())
@@ -83,7 +84,7 @@ namespace Demo.HotChocolate.Server
 			}
 
 			app.UseRouting();
-			// app.UseCustomGraphQL();
+			app.UseCustomGraphQL();
 
 			app.UseSpa(spa => {
 				           // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -114,35 +115,36 @@ namespace Demo.HotChocolate.Server
 			try
 			{
 				var userRepository = app.ApplicationServices.GetRequiredService<IUserRepository>();
+
+				if (userRepository.GetAllUsers().Any())
+				{
+					return;
+				}
+
+				var faker = new Faker<User>()
+						.RuleFor(o => o.IsMale, f => f.Person.Gender == Name.Gender.Male)
+						.RuleFor(o => o.Gender, f => f.Person.Gender.ToModel())
+						.RuleFor(o => o.ZipCode,
+							f => f.Random.Int(1000, 9999))
+						.RuleFor(o => o.FirstName,
+							f => f.Name.FirstName())
+						.RuleFor(o => o.LastName,
+							f => f.Name.LastName())
+						.RuleFor(o => o.Email, f => f.Internet.Email())
+						.RuleFor(o => o.Id, f => f.Random.Guid())
+						.RuleFor(o => o.BirthDate,
+							f => f.Date.Between(
+								new DateTime(1965, 1, 1),
+								new DateTime(2006, 1, 1)))
+					;
+
+				var users = faker.Generate(5);
+				userRepository.AddUsers(users);
 			}
 			catch (Exception exception)
 			{
 				Console.WriteLine(exception);
 			}
-
-			// var userRepository = app.ApplicationServices.GetRequiredService<IUserRepository>();
-
-			//var faker = new Faker<User>()
-			//		.RuleFor(o => o.IsMale, f => f.Person.Gender == Name.Gender.Male)
-			//		.RuleFor(o => o.Gender, f => f.Person.Gender.ToModel())
-			//		.RuleFor(o => o.ZipCode,
-			//			f => f.Random.Int(1000, 9999))
-			//		.RuleFor(o => o.FirstName,
-			//			f => f.Name.FirstName())
-			//		.RuleFor(o => o.LastName,
-			//			f => f.Name.LastName())
-			//		.RuleFor(o => o.Email, f => f.Internet.Email())
-			//		.RuleFor(o => o.Id, f => f.Random.Guid())
-			//		.RuleFor(o => o.BirthDate,
-			//			f => f.Date.Between(
-			//				new DateTime(1965, 1, 1),
-			//				new DateTime(2006, 1, 1)))
-			//	;
-
-			//var users = faker.Generate(200);
-
-			//dbcontext.Users.AddRange(users);
-			//dbcontext.SaveChanges();
 		}
 	}
 }
