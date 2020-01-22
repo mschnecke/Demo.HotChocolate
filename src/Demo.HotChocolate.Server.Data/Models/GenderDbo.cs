@@ -6,7 +6,7 @@
 
 namespace Demo.HotChocolate.Server.Data.Models
 {
-	internal enum GenderDbo
+	public enum GenderDbo
 	{
 		Male,
 

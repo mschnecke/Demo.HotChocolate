@@ -9,7 +9,7 @@ namespace Demo.HotChocolate.Server.Data
 	using Demo.HotChocolate.Server.Data.Models;
 	using Microsoft.EntityFrameworkCore;
 
-	internal class UserDbContext : DbContext
+	public class UserDbContext : DbContext
 	{
 		public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
 		{

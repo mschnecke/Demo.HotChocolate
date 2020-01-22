@@ -6,8 +6,8 @@
 
 namespace Demo.HotChocolate.Server.Domain
 {
+	using System.Collections.Generic;
 	using System.Linq;
-	using System.Threading.Tasks;
 	using Demo.HotChocolate.Server.Domain.Models;
 
 	/// <summary>
@@ -20,5 +20,11 @@ namespace Demo.HotChocolate.Server.Domain
 		/// </summary>
 		/// <returns></returns>
 		IQueryable<User> Find();
+
+		/// <summary>
+		/// Adds the range of users.
+		/// </summary>
+		/// <param name="users">The users.</param>
+		void AddRange(IEnumerable<User> users);
 	}
 }

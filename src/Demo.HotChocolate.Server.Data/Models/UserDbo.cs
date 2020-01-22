@@ -8,7 +8,7 @@ namespace Demo.HotChocolate.Server.Data.Models
 {
 	using System;
 
-	internal class UserDbo
+	public class UserDbo
 	{
 		
 		public DateTime BirthDate { get; set; }

@@ -6,6 +6,8 @@
 
 namespace Demo.HotChocolate.Server
 {
+	using Demo.HotChocolate.Server.Data;
+	using Demo.HotChocolate.Server.Domain;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Hosting;
 	using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -26,9 +28,9 @@ namespace Demo.HotChocolate.Server
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.ConfigureDatabase("Filename=MyDatabase.db");
+			services.AddSingleton<IUserRepository, UserRepository>();
 
 			services.AddCors();
-
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles(configuration => {
 				                           configuration.RootPath = "ClientApp/dist";
