@@ -1,9 +1,12 @@
+using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Linq;
 using System;
 using System.IO;
 using Demo.HotChocolate.Server.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Demo.HotChocolate.Server.Data.Tests
 {
@@ -11,8 +14,10 @@ namespace Demo.HotChocolate.Server.Data.Tests
 	{
 		private UserDbContext dbContext;
 		private UserRepository repository;
-		public UserRepositoryTest()
+		private readonly ITestOutputHelper output_;
+		public UserRepositoryTest(ITestOutputHelper output)
 		{
+			output_ = output;
 			var path = "MyDatabase.db";
 			MoveOldDBFile(path);
 
@@ -43,12 +48,10 @@ namespace Demo.HotChocolate.Server.Data.Tests
 			repository.AddUser(user);
 			Assert.Equal(user.Email, repository.GetUser(user.Id).ToList().ElementAt(0).Email);
 			Assert.All(repository.GetUsers(user.FirstName), x => x.Email.Equals(user.Email));
-			var timeSpan = new TimeSpan(100, 0, 0, 0);
-			var time = DateTime.Now.Subtract(timeSpan);
 			Assert.Equal(
 				1,
 				repository.GetUsers(
-					x => x.BirthDate < DateTime.UtcNow.Add(timeSpan)
+					x => x.BirthDate < DateTime.UtcNow.AddDays(-100)
 				).Count()
 			);
 		}

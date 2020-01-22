@@ -14,10 +14,11 @@ namespace Demo.HotChocolate.Server.Data.Mapping
 	{
 		public MappingProfile()
 		{
-			this.CreateMap<User,UserDbo>()
+			//this.
+			this.CreateMap<User, UserDbo>()
 				.ReverseMap();
 
-			this.CreateMap<Gender,GenderDbo>()
+			this.CreateMap<Gender, GenderDbo>()
 				.ReverseMap();
 		}
 	}

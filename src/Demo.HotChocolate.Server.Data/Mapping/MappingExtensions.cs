@@ -16,13 +16,13 @@ namespace Demo.HotChocolate.Server.Data.Mapping
 
 	internal static class MappingExtensions
 	{
+
+		internal static IMapper Mapper { get; }
 		static MappingExtensions()
 		{
 			Mapper = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>())
 				.CreateMapper();
 		}
-
-		internal static IMapper Mapper { get; }
 
 		public static User ToModel(this UserDbo entity)
 		{

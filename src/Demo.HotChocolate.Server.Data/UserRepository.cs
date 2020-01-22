@@ -45,9 +45,18 @@ namespace Demo.HotChocolate.Server.Data
 		}
 
 		/// <inheritdoc />
-		public IQueryable<User> GetUsers(Expression<Func<UserDbo, bool>> func)
+		public IQueryable<User> GetUsers(Expression<Func<User, bool>> func)
 		{
-			return dbContext_.Users.Where(func).Select(x => x.ToModel());
+			var func_ = MappingExtensions.Mapper.Map<Expression<Func<UserDbo, bool>>>(func);
+			return dbContext_.Users.Where(func_).Select(x => x.ToModel());
+		}
+
+		public void TestMapping()
+		{
+			MappingExtensions.Mapper.Map<User>(new UserDbo());
+			MappingExtensions.Mapper.Map<UserDbo>(new User());
+			try { MappingExtensions.Mapper.Map<Expression<Func<UserDbo, bool>>>((Expression<Func<User, bool>>)(x => true)); } catch (Exception e) { }
+			try { MappingExtensions.Mapper.Map<Expression<Func<User, bool>>>((Expression<Func<UserDbo, bool>>)(x => true)); } catch (Exception e) { }
 		}
 
 		/// <inheritdoc />
