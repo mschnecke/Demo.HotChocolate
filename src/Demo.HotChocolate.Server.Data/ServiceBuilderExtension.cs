@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
 					                                            connectionString,
 					                                            b =>
 						                                            b.MigrationsAssembly(Contants.MigrationsAssembly)),
-				ServiceLifetime.Transient);
+				ServiceLifetime.Transient, ServiceLifetime.Transient);
 		}
 	}
 }

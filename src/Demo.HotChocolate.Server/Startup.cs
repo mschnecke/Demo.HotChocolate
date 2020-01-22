@@ -6,11 +6,13 @@
 
 namespace Demo.HotChocolate.Server
 {
+	using System;
 	using Demo.HotChocolate.Server.Data;
 	using Demo.HotChocolate.Server.Domain;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Hosting;
 	using Microsoft.AspNetCore.SpaServices.AngularCli;
+	using Microsoft.EntityFrameworkCore;
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Hosting;
@@ -27,8 +29,10 @@ namespace Demo.HotChocolate.Server
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			//services.ConfigureDatabase("Filename=MyDatabase.db");
-			//services.AddTransient<IUserRepository, UserRepository>();
+			services.ConfigureDatabase("Filename=MyDatabase.db");
+			services.AddTransient<IUserRepository, UserRepository>();
+
+			services.ConfigureGraphQL();
 
 			services.AddCors();
 			// In production, the Angular files will be served from this directory
@@ -38,7 +42,7 @@ namespace Demo.HotChocolate.Server
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
 		{
 			if (env.IsDevelopment())
 			{
@@ -49,6 +53,16 @@ namespace Demo.HotChocolate.Server
 				app.UseExceptionHandler("/Error");
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
+			}
+
+			try
+			{
+				lifetime.ApplicationStarted.Register(() => {
+					                                     PopulateData(app);
+				                                     });
+			}
+			catch (Exception)
+			{
 			}
 
 			app.UseCors(builder => {
@@ -64,6 +78,7 @@ namespace Demo.HotChocolate.Server
 			}
 
 			app.UseRouting();
+			// app.UseCustomGraphQL();
 
 			app.UseSpa(spa => {
 				           // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -76,6 +91,53 @@ namespace Demo.HotChocolate.Server
 					           spa.UseAngularCliServer("start");
 				           }
 			           });
+		}
+
+		private static void PopulateData(IApplicationBuilder app)
+		{
+			try
+			{
+				using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+				var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+				dbContext.Database.Migrate();
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception);
+			}
+
+			try
+			{
+				var userRepository = app.ApplicationServices.GetRequiredService<IUserRepository>();
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception);
+			}
+
+			// var userRepository = app.ApplicationServices.GetRequiredService<IUserRepository>();
+
+			//var faker = new Faker<User>()
+			//		.RuleFor(o => o.IsMale, f => f.Person.Gender == Name.Gender.Male)
+			//		.RuleFor(o => o.Gender, f => f.Person.Gender.ToModel())
+			//		.RuleFor(o => o.ZipCode,
+			//			f => f.Random.Int(1000, 9999))
+			//		.RuleFor(o => o.FirstName,
+			//			f => f.Name.FirstName())
+			//		.RuleFor(o => o.LastName,
+			//			f => f.Name.LastName())
+			//		.RuleFor(o => o.Email, f => f.Internet.Email())
+			//		.RuleFor(o => o.Id, f => f.Random.Guid())
+			//		.RuleFor(o => o.BirthDate,
+			//			f => f.Date.Between(
+			//				new DateTime(1965, 1, 1),
+			//				new DateTime(2006, 1, 1)))
+			//	;
+
+			//var users = faker.Generate(200);
+
+			//dbcontext.Users.AddRange(users);
+			//dbcontext.SaveChanges();
 		}
 	}
 }
