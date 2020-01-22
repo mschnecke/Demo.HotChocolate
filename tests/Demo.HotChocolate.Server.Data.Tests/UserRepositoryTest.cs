@@ -50,6 +50,9 @@ namespace Demo.HotChocolate.Server.Data.Tests
 			repository.AddUser(user);
 			Assert.Equal(user.Email, repository.GetUser(user.Id).ToList().ElementAt(0).Email);
 			Assert.All(repository.GetUsers(user.FirstName), x => x.Email.Equals(user.Email));
+
+
+
 			Assert.Equal(
 				1,
 				repository.GetUsers(

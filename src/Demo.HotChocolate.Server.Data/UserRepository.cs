@@ -35,7 +35,7 @@ namespace Demo.HotChocolate.Server.Data
 		}
 
 		/// <inheritdoc />
-		public IQueryable<User> GetAllUsers()
+		public IQueryable<User> GetUsers()
 		{
 			return this.dbContext
 				.Users

@@ -20,7 +20,7 @@ namespace Demo.HotChocolate.Server.Domain
 		/// Get all users.
 		/// </summary>
 		/// <returns></returns>
-		IQueryable<User> GetAllUsers();
+		IQueryable<User> GetUsers();
 
 		/// <summary>
 		/// Get a single user.
