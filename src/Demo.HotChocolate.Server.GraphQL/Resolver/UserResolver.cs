@@ -6,7 +6,6 @@
 
 namespace Demo.HotChocolate.Server.GraphQL.Resolver
 {
-	using System.Collections.Generic;
 	using System.Linq;
 	using Demo.HotChocolate.Server.Domain;
 	using Demo.HotChocolate.Server.GraphQL.Mapping;
@@ -21,10 +20,13 @@ namespace Demo.HotChocolate.Server.GraphQL.Resolver
 			this.repository = repository;
 		}
 
-		public IEnumerable<UserDto> GetUsers(int? skip, int? take)
+		public ListResultDto<UserDto> GetUsers(int? skip, int? take)
 		{
 			var query = this.repository
 				.GetUsers();
+
+			var list = new ListResultDto<UserDto>();
+			list.TotalCount = query.Count();
 
 			if (skip.HasValue)
 			{
@@ -36,9 +38,11 @@ namespace Demo.HotChocolate.Server.GraphQL.Resolver
 				query = query.Take(take.Value);
 			}
 
-			return query
+			list.Data = query
 				.Select(x => x.ToTransport())
 				.ToList();
+
+			return list;
 		}
 	}
 }
