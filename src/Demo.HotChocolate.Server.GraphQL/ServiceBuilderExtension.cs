@@ -8,6 +8,7 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+	using Demo.HotChocolate.Server.GraphQL;
 	using Demo.HotChocolate.Server.GraphQL.Types;
 	using HotChocolate;
 	using HotChocolate.AspNetCore;
@@ -20,9 +21,8 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			services.AddGraphQL(serviceProvider => SchemaBuilder.New()
 				                    .AddServices(serviceProvider)
-				                    .AddQueryType<QueryType>()
+				                    .AddQueryType<Query>()
 				                    .AddType<UserType>()
-				                    .AddType<UserListType>()
 				                    .Create(),
 					new QueryExecutionOptions {
 						                          TracingPreference = TracingPreference.OnDemand,

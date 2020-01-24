@@ -1,22 +1,41 @@
 <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+  <clr-dg-action-bar>
+    <div class="clr-row">
+      <div class="clr-col"></div>
+      <div class="clr-col-2">
+        <div class="btn-group btn-outline btn-sm">
+          <button class="btn">Reset Filters</button>
+          <button class="btn" [disabled]="!connection.pageInfo.hasPreviousPage" (click)="onPreviousPage()">
+            <clr-icon
+              shape="caret"
+              style="transform: rotate(270deg);"
+            ></clr-icon>
+          </button>
+          <button class="btn" [disabled]="!connection.pageInfo.hasNextPage" (click)="onNextPage()">
+            <clr-icon
+              shape="caret"
+              style="transform: rotate(90deg);"
+            ></clr-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </clr-dg-action-bar>
+
   <clr-dg-column [clrDgField]="'email'">E-Mail</clr-dg-column>
 
   <clr-dg-placeholder>We couldn't find any users!</clr-dg-placeholder>
-  <clr-dg-row *ngFor="let user of users">
+  <clr-dg-row *ngFor="let user of connection.edges">
     <clr-dg-cell>{{ user.node.email }}</clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
-    <clr-dg-pagination
-      #pagination
-      [clrDgPageSize]="10"
-      [clrDgTotalItems]="total"
-    >
-      <clr-dg-page-size [clrPageSizeOptions]="[10, 20, 50, 100]"
+    <clr-dg-pagination #pagination [clrDgPageSize]="2">
+      <clr-dg-page-size [clrPageSizeOptions]="[2, 10, 20, 50, 100]"
         >Users per page</clr-dg-page-size
       >
       {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-      {{ pagination.totalItems }} users
+      {{ connection.totalCount }} users
     </clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>

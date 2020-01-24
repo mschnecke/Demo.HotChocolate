@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-
 import { ClrDatagridStateInterface } from '@clr/angular';
 
 import {
-  UserDto,
   GetUsersGQL,
   GetUsersQueryVariables,
-  UserDtoEdge
+  UserDtoConnection,
+  SortOperationKind
 } from '../../core';
 
 @Component({
@@ -15,9 +14,16 @@ import {
   styleUrls: ['./user.component.css']
 })
 export class UserComponent {
-  users: UserDtoEdge[];
-  total: number;
   loading = true;
+  connection: UserDtoConnection = {
+    totalCount: 0,
+    pageInfo: {
+      hasNextPage: false,
+      hasPreviousPage: false
+    }
+  };
+
+  private queryArgs: GetUsersQueryVariables = {};
 
   private dataGridState: ClrDatagridStateInterface = {
     page: {
@@ -33,16 +39,23 @@ export class UserComponent {
 
   constructor(private getClient: GetUsersGQL) {}
 
+  onPreviousPage() {
+    this.queryArgs.after = undefined;
+    this.queryArgs.before = this.connection.pageInfo.startCursor;
+    this.refresh(this.dataGridState);
+  }
+
+  onNextPage() {
+    this.queryArgs.before = undefined;
+    this.queryArgs.after = this.connection.pageInfo.endCursor;
+    this.refresh(this.dataGridState);
+  }
+
   refresh(state: ClrDatagridStateInterface) {
     this.dataGridState = state;
 
-    const queryArgs: GetUsersQueryVariables = {
-      first: this.dataGridState.page.size
-    };
-
-    // // paging
-    // queryArgs.take = this.dataGridState.page.size;
-    // queryArgs.skip = this.dataGridState.page.from;
+    // paging
+    this.queryArgs.first = this.dataGridState.page.size;
 
     // // filtering
     // if (this.dataGridState.filters) {
@@ -56,10 +69,12 @@ export class UserComponent {
     //   }
     // }
 
-    // // sorting
+    // sorting
+    this.queryArgs.order_by = { email: SortOperationKind.Asc };
+
     // if (this.dataGridState.sort) {
     //   if (this.dataGridState.sort.reverse) {
-    //     queryArgs.sort = {
+    //     queryArgs.order_by.sort = {
     //       field: this.dataGridState.sort.by.toString(),
     //       kind: SortKind.Desc
     //     };
@@ -76,7 +91,8 @@ export class UserComponent {
     //   };
     // }
 
-    this.getUsers(queryArgs);
+    console.log('queryArgs', this.queryArgs);
+    this.getUsers(this.queryArgs);
   }
 
   private getUsers(queryArgs: GetUsersQueryVariables) {
@@ -84,13 +100,13 @@ export class UserComponent {
     this.getClient.watch(queryArgs).valueChanges.subscribe(
       result => {
         if (result.errors) {
+          this.loading = false;
           result.errors.forEach(error => {
             console.log(error.message);
           });
         } else {
           if (result.data.users !== null) {
-            this.total = result.data.users.totalCount;
-            this.users = result.data.users.edges;
+            this.connection = result.data.users;
             this.loading = result.loading;
           }
         }

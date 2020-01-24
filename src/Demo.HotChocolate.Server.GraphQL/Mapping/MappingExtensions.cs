@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 namespace Demo.HotChocolate.Server.GraphQL.Mapping
 {
 	using AutoMapper;
+	using Demo.HotChocolate.Server.Data.Models;
 	using Demo.HotChocolate.Server.Domain.Models;
 	using Demo.HotChocolate.Server.Transport;
 
@@ -32,6 +33,11 @@ namespace Demo.HotChocolate.Server.GraphQL.Mapping
 		public static UserDto ToTransport(this User model)
 		{
 			return model == null ? null : Mapper.Map<UserDto>(model);
+		}
+
+		public static UserDto ToTransport(this UserDbo dbo)
+		{
+			return dbo == null ? null : Mapper.Map<UserDto>(dbo);
 		}
 	}
 }

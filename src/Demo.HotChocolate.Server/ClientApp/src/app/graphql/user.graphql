@@ -3,14 +3,14 @@ query getUsers(
   $before: String
   $first: PaginationAmount
   $last: PaginationAmount
-  $where: UserDtoFilter
+  $order_by: UserDtoSort
 ) {
   users(
     after: $after
     before: $before
     first: $first
     last: $last
-    where: $where
+    order_by: $order_by
   ) {
     totalCount
     pageInfo {
