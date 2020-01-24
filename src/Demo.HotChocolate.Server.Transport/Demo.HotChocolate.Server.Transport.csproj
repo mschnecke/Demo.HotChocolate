@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Demo.HotChocolate.Server.Domain\Demo.HotChocolate.Server.Domain.csproj" />
+    <ProjectReference Include="..\Demo.HotChocolate.Server.Data\Demo.HotChocolate.Server.Data.csproj" />
   </ItemGroup>
 
 </Project>

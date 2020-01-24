@@ -19,7 +19,9 @@ namespace Demo.HotChocolate.Server.GraphQL
 	using global::HotChocolate.Types.Relay;
 
 	public class Query
+	: ObjectType<Query>
 	{
+
 		[UsePaging]
 		//[UseFiltering]
 		[UseSorting]

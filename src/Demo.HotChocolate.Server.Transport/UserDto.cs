@@ -1,4 +1,5 @@
-﻿// ----------------------------------------------------------------------------------------
+﻿using System.Linq;
+// ----------------------------------------------------------------------------------------
 //  <copyright file="UserDto.cs" company="pisum.net">
 //     Copyright (c) 2020, pisum.net. All rights reserved.
 //  </copyright>
@@ -13,6 +14,7 @@ namespace Demo.HotChocolate.Server.Transport
 	/// </summary>
 	public class UserDto
 	{
+
 		/// <summary>
 		/// Gets or sets the birth date.
 		/// </summary>

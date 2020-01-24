@@ -13,21 +13,34 @@ namespace Microsoft.Extensions.DependencyInjection
 	using HotChocolate;
 	using HotChocolate.AspNetCore;
 	using HotChocolate.Execution.Configuration;
+	using HotChocolate.Stitching;
 	using Microsoft.AspNetCore.Builder;
 
 	public static class ServiceBuilderExtension
 	{
 		public static IServiceCollection ConfigureGraphQL(this IServiceCollection services)
 		{
+			services.AddDataLoaderRegistry();
+
+			// services.AddStitchedSchema(builder => builder
+			// 	.AddSchemaFromHttp("users")
+			// 	.AddSchemaConfiguration(c => 
+			// 	{
+			// 		c.RegisterExtendedScalarTypes();
+			// 	})
+			// );
+
 			services.AddGraphQL(serviceProvider => SchemaBuilder.New()
-				                    .AddServices(serviceProvider)
-				                    .AddQueryType<Query>()
-				                    .AddType<UserType>()
-				                    .Create(),
-					new QueryExecutionOptions {
-						                          TracingPreference = TracingPreference.OnDemand,
-						                          IncludeExceptionDetails = true
-					                          })
+									.AddServices(serviceProvider)
+									.EnableRelaySupport()
+									.AddQueryType<Query>()
+									.AddType<UserType>()
+									.Create(),
+					new QueryExecutionOptions
+					{
+						TracingPreference = TracingPreference.OnDemand,
+						IncludeExceptionDetails = true
+					})
 				;
 
 			return services;

@@ -7,12 +7,23 @@
 namespace Demo.HotChocolate.Server.Domain.Models
 {
 	using System;
+	using System.Linq;
+	using global::HotChocolate;
+	using global::HotChocolate.Types;
 
 	/// <summary>
 	/// The user.
 	/// </summary>
-	public class User
+	public class User : ObjectType<User>
 	{
+
+		protected override void Configure(IObjectTypeDescriptor<User> descriptor)
+		{
+			descriptor.AsNode()
+				.IdField(t => t.Id)
+				.NodeResolver(async (ctx, id) =>
+					ctx.Service<IUserRepository>().GetUser(id).ToList().ElementAt(0));
+		}
 		/// <summary>
 		/// Gets or sets the birth date.
 		/// </summary>
