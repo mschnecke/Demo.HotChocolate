@@ -14,6 +14,7 @@ namespace Demo.HotChocolate.Server.Data
 	using Demo.HotChocolate.Server.Data.Models;
 	using Demo.HotChocolate.Server.Domain;
 	using Demo.HotChocolate.Server.Domain.Models;
+	using GreenDonut;
 
 	/// <inheritdoc />
 	public class UserRepository : IUserRepository
@@ -62,6 +63,11 @@ namespace Demo.HotChocolate.Server.Data
 		public IQueryable<User> GetUsers(string name)
 		{
 			return this.dbContext.Users.Where(x => x.FirstName.Equals(name)).Select(x => x.ToModel());
+		}
+
+		public IReadOnlyList<User> GetUsers(IReadOnlyList<string> keys)
+		{
+			return this.GetUsers(x => keys.Contains(x.Id.ToString())).Select(x => x).ToList();
 		}
 
 		public void Clear()

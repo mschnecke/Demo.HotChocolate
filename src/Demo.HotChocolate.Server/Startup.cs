@@ -13,6 +13,7 @@ namespace Demo.HotChocolate.Server
 	using Demo.HotChocolate.Server.Domain;
 	using Demo.HotChocolate.Server.Domain.Models;
 	using Demo.HotChocolate.Server.Extensions;
+	using global::HotChocolate;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Hosting;
 	using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -39,6 +40,8 @@ namespace Demo.HotChocolate.Server
 			services.AddTransient<IUserRepository, UserRepository>();
 
 			services.ConfigureGraphQL();
+
+			services.AddDataLoaderRegistry();
 
 			services.AddCors();
 			// In production, the Angular files will be served from this directory

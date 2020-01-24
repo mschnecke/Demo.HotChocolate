@@ -4,4 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="HotChocolate.AspNetCore" Version="10.3.5" />
+    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.3.5" />
+    <PackageReference Include="HotChocolate.Types.Filters" Version="10.3.5" />
+    <PackageReference Include="HotChocolate.Types.Sorting" Version="10.3.5" />
+  </ItemGroup>
+
 </Project>

@@ -18,6 +18,7 @@ namespace Demo.HotChocolate.Server.Domain
 	using System.Linq;
 	using System.Linq.Expressions;
 	using Demo.HotChocolate.Server.Domain.Models;
+	using GreenDonut;
 
 	/// <summary>
 	/// The user repository.
@@ -36,6 +37,13 @@ namespace Demo.HotChocolate.Server.Domain
 		/// <param name="expression">The expression.</param>
 		/// <returns></returns>
 		IQueryable<User> GetUsers(Expression<Func<User, bool>> expression);
+
+		/// <summary>
+		/// Gets the users.
+		/// </summary>
+		/// <param name="expression">The expression.</param>
+		/// <returns></returns>
+		IReadOnlyList<User> GetUsers(IReadOnlyList<string> keys);
 
 		/// <summary>
 		/// Get a single user.
