@@ -4,6 +4,7 @@ query getUsers(
   $first: PaginationAmount
   $last: PaginationAmount
   $order_by: UserDtoSort
+  $where: UserDtoFilter
 ) {
   users(
     after: $after
@@ -11,6 +12,7 @@ query getUsers(
     first: $first
     last: $last
     order_by: $order_by
+    where: $where
   ) {
     totalCount
     pageInfo {

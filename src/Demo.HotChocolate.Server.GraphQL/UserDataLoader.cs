@@ -23,6 +23,7 @@ namespace Demo.HotChocolate.Server.GraphQL
 			IReadOnlyList<string> keys,
 			CancellationToken cancellationToken)
 		{
+			await Task.Yield();
 			return _repository.GetUsers(keys).Select(x => Result<UserDto>.Resolve(x.ToTransport())).ToList();
 		}
 	}

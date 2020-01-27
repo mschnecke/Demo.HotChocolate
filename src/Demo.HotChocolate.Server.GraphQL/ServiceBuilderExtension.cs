@@ -13,7 +13,6 @@ namespace Microsoft.Extensions.DependencyInjection
 	using HotChocolate;
 	using HotChocolate.AspNetCore;
 	using HotChocolate.Execution.Configuration;
-	using HotChocolate.Stitching;
 	using Microsoft.AspNetCore.Builder;
 
 	public static class ServiceBuilderExtension
@@ -22,17 +21,10 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			//services.AddDataLoaderRegistry();
 
-			// services.AddStitchedSchema(builder => builder
-			// 	.AddSchemaFromHttp("users")
-			// 	.AddSchemaConfiguration(c => 
-			// 	{
-			// 		c.RegisterExtendedScalarTypes();
-			// 	})
-			// );
+		
 
 			services.AddGraphQL(serviceProvider => SchemaBuilder.New()
 									.AddServices(serviceProvider)
-								
 									.AddQueryType<Query>()
 									.AddType<UserType>()
 									.Create(),

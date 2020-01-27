@@ -22,7 +22,7 @@ namespace Demo.HotChocolate.Server.GraphQL
 	{
 
 		[UsePaging]
-		//[UseFiltering]
+		[UseFiltering]
 		[UseSorting]
 		[GraphQLDescription("Get the users.")]
 		public ICollection<UserDto> GetUsers([Service] IUserRepository repository)
@@ -44,18 +44,5 @@ namespace Demo.HotChocolate.Server.GraphQL
 		// 		// .ElementAt(0)
 		// 		;
 		// }
-
-		//[UsePaging]
-		////[UseFiltering]
-		//[UseSorting]
-		//[GraphQLDescription("Get the users.")]
-		//public ICollection<UserDto> GetUsers([Service] UserDbContext dbContext)
-		//{
-		//	return dbContext
-		//			.Users
-		//			.Select(x => x.ToTransport())
-		//			.ToList()
-		//		;
-		//}
 	}
 }

@@ -145,7 +145,7 @@ namespace Demo.HotChocolate.Server
 								new DateTime(2006, 1, 1)))
 					;
 
-				var users = faker.Generate(10);
+				var users = faker.Generate(20);
 				userRepository.AddUsers(users);
 			}
 			catch (Exception exception)

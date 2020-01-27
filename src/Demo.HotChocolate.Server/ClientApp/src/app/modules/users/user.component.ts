@@ -5,7 +5,8 @@ import {
   GetUsersGQL,
   GetUsersQueryVariables,
   UserDtoConnection,
-  SortOperationKind
+  SortOperationKind,
+  GetUsersDocument
 } from '../../core';
 
 @Component({
@@ -40,62 +41,126 @@ export class UserComponent {
   constructor(private getClient: GetUsersGQL) {}
 
   onPreviousPage() {
-    this.queryArgs.after = undefined;
+    // reset query arguments
+    this.queryArgs = {};
+
+    // paging
     this.queryArgs.before = this.connection.pageInfo.startCursor;
-    this.refresh(this.dataGridState);
+    this.queryArgs.last = this.dataGridState.page.size;
+
+    // filtering
+    this.setFilter();
+
+    // sorting
+    this.setSorting();
+
+    this.getUsers(this.queryArgs);
   }
 
   onNextPage() {
-    this.queryArgs.before = undefined;
+    // reset query arguments
+    this.queryArgs = {};
+
+    // paging
     this.queryArgs.after = this.connection.pageInfo.endCursor;
-    this.refresh(this.dataGridState);
+    this.queryArgs.first = this.dataGridState.page.size;
+    this.queryArgs.before = undefined;
+    this.queryArgs.last = undefined;
+
+    // filtering
+    this.setFilter();
+
+    // sorting
+    this.setSorting();
+
+    this.getUsers(this.queryArgs);
   }
 
   refresh(state: ClrDatagridStateInterface) {
+    console.log('state', state);
     this.dataGridState = state;
+
+    this.queryArgs = {};
 
     // paging
     this.queryArgs.first = this.dataGridState.page.size;
 
-    // // filtering
-    // if (this.dataGridState.filters) {
-    //   for (const filter of this.dataGridState.filters) {
-    //     const { property, value } = filter as {
-    //       property: string;
-    //       value: string;
-    //     };
-
-    //     queryArgs.filters.push({ key: property, value: value });
-    //   }
-    // }
+    // filtering
+    this.setFilter();
 
     // sorting
-    this.queryArgs.order_by = { email: SortOperationKind.Asc };
+    this.setSorting();
 
-    // if (this.dataGridState.sort) {
-    //   if (this.dataGridState.sort.reverse) {
-    //     queryArgs.order_by.sort = {
-    //       field: this.dataGridState.sort.by.toString(),
-    //       kind: SortKind.Desc
-    //     };
-    //   } else {
-    //     queryArgs.sort = {
-    //       field: this.dataGridState.sort.by.toString(),
-    //       kind: SortKind.Asc
-    //     };
-    //   }
-    // } else {
-    //   queryArgs.sort = {
-    //     field: 'name',
-    //     kind: SortKind.Asc
-    //   };
-    // }
-
-    console.log('queryArgs', this.queryArgs);
     this.getUsers(this.queryArgs);
   }
 
+  private setFilter() {
+    if (this.dataGridState.filters) {
+      this.queryArgs.where = {};
+
+      for (const filter of this.dataGridState.filters) {
+        if (filter.property === 'email') {
+          this.queryArgs.where.email_contains = filter.value;
+        } else if (filter.property === 'firstName') {
+          this.queryArgs.where.firstName_contains = filter.value;
+        } else if (filter.property === 'lastName') {
+          this.queryArgs.where.lastName_contains = filter.value;
+        } else if (filter.property === 'birthDate') {
+          this.queryArgs.where.birthDate = filter.value;
+        } else if (filter.property === 'gender') {
+          this.queryArgs.where.gender = filter.value;
+        } else if (filter.property === 'isMale') {
+          this.queryArgs.where.isMale = filter.value;
+        } else if (filter.property === 'zipCode') {
+          this.queryArgs.where.zipCode = filter.value;
+        }
+      }
+    }
+  }
+
+  private setSorting() {
+    if (this.dataGridState.sort) {
+      if (this.dataGridState.sort.reverse) {
+        if (this.dataGridState.sort.by.toString() === 'firstName') {
+          this.queryArgs.order_by = { firstName: SortOperationKind.Desc };
+        } else if (this.dataGridState.sort.by.toString() === 'lastName') {
+          this.queryArgs.order_by = { lastName: SortOperationKind.Desc };
+        } else if (this.dataGridState.sort.by.toString() === 'birthDate') {
+          this.queryArgs.order_by = { birthDate: SortOperationKind.Desc };
+        } else if (this.dataGridState.sort.by.toString() === 'gender') {
+          this.queryArgs.order_by = { gender: SortOperationKind.Desc };
+        } else if (this.dataGridState.sort.by.toString() === 'isMale') {
+          this.queryArgs.order_by = { isMale: SortOperationKind.Desc };
+        } else if (this.dataGridState.sort.by.toString() === 'zipCode') {
+          this.queryArgs.order_by = { zipCode: SortOperationKind.Desc };
+        } else {
+          this.queryArgs.order_by = { email: SortOperationKind.Desc };
+        }
+      } else {
+        if (this.dataGridState.sort.by.toString() === 'firstName') {
+          this.queryArgs.order_by = { firstName: SortOperationKind.Asc };
+        } else if (this.dataGridState.sort.by.toString() === 'lastName') {
+          this.queryArgs.order_by = { lastName: SortOperationKind.Asc };
+        } else if (this.dataGridState.sort.by.toString() === 'birthDate') {
+          this.queryArgs.order_by = { birthDate: SortOperationKind.Asc };
+        } else if (this.dataGridState.sort.by.toString() === 'gender') {
+          this.queryArgs.order_by = { gender: SortOperationKind.Asc };
+        } else if (this.dataGridState.sort.by.toString() === 'isMale') {
+          this.queryArgs.order_by = { isMale: SortOperationKind.Asc };
+        } else if (this.dataGridState.sort.by.toString() === 'zipCode') {
+          this.queryArgs.order_by = { zipCode: SortOperationKind.Asc };
+        } else {
+          this.queryArgs.order_by = { email: SortOperationKind.Asc };
+        }
+      }
+    } else {
+      this.queryArgs.order_by = { email: SortOperationKind.Asc };
+    }
+  }
+
   private getUsers(queryArgs: GetUsersQueryVariables) {
+    console.log('queryArgs', this.queryArgs);
+
     this.loading = true;
     this.getClient.watch(queryArgs).valueChanges.subscribe(
       result => {
