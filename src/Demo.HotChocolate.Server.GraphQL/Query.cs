@@ -19,7 +19,6 @@ namespace Demo.HotChocolate.Server.GraphQL
 	using global::HotChocolate.Types.Relay;
 
 	public class Query
-	: ObjectType<Query>
 	{
 
 		[UsePaging]
@@ -35,16 +34,16 @@ namespace Demo.HotChocolate.Server.GraphQL
 				;
 		}
 
-		public async Task<UserDto> GetUser(Guid id, [DataLoader]UserDataLoader userLoader)
-		{
-			return await userLoader
-				.LoadAsync(id.ToString(), new CancellationToken())
-				// .GetUser(id)
-				// .Select(x => x.ToTransport())
-				// .ToList()
-				// .ElementAt(0)
-				;
-		}
+		// public async Task<UserDto> GetUser(Guid id, [DataLoader]UserDataLoader userLoader)
+		// {
+		// 	return await userLoader
+		// 		.LoadAsync(id.ToString(), new CancellationToken())
+		// 		// .GetUser(id)
+		// 		// .Select(x => x.ToTransport())
+		// 		// .ToList()
+		// 		// .ElementAt(0)
+		// 		;
+		// }
 
 		//[UsePaging]
 		////[UseFiltering]

@@ -14,16 +14,8 @@ namespace Demo.HotChocolate.Server.Domain.Models
 	/// <summary>
 	/// The user.
 	/// </summary>
-	public class User : ObjectType<User>
+	public class User
 	{
-
-		protected override void Configure(IObjectTypeDescriptor<User> descriptor)
-		{
-			descriptor.AsNode()
-				.IdField(t => t.Id)
-				.NodeResolver(async (ctx, id) =>
-					ctx.Service<IUserRepository>().GetUser(id).ToList().ElementAt(0));
-		}
 		/// <summary>
 		/// Gets or sets the birth date.
 		/// </summary>

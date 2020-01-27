@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
 	{
 		public static IServiceCollection ConfigureGraphQL(this IServiceCollection services)
 		{
-			services.AddDataLoaderRegistry();
+			//services.AddDataLoaderRegistry();
 
 			// services.AddStitchedSchema(builder => builder
 			// 	.AddSchemaFromHttp("users")
@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
 			services.AddGraphQL(serviceProvider => SchemaBuilder.New()
 									.AddServices(serviceProvider)
-									.EnableRelaySupport()
+								
 									.AddQueryType<Query>()
 									.AddType<UserType>()
 									.Create(),
