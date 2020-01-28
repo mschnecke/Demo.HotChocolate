@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import {
+  ClrDatagridStateInterface,
+  ClrDatagridFilterInterface
+} from '@clr/angular';
 
 import {
   GetUsersGQL,
   GetUsersQueryVariables,
   UserDtoConnection,
   SortOperationKind,
-  GetUsersDocument
+  UserDto
 } from '../../core';
+import {
+  IsMaleFilterComponent,
+  IsMaleFilter
+} from './components/is-male-filter/is-male-filter.component';
 
 @Component({
   selector: 'app-user',
@@ -24,6 +31,7 @@ export class UserComponent {
     }
   };
 
+  private filterIsMale: IsMaleFilter;
   private queryArgs: GetUsersQueryVariables = {};
 
   private dataGridState: ClrDatagridStateInterface = {
@@ -76,6 +84,11 @@ export class UserComponent {
     this.getUsers(this.queryArgs);
   }
 
+  onIsMaleFilterChange($event) {
+    this.filterIsMale = $event;
+    this.refresh(this.dataGridState);
+  }
+
   refresh(state: ClrDatagridStateInterface) {
     console.log('state', state);
     this.dataGridState = state;
@@ -94,10 +107,27 @@ export class UserComponent {
     this.getUsers(this.queryArgs);
   }
 
+  onResetFilters() {
+    this.filterIsMale = IsMaleFilter.None;
+
+    this.dataGridState = {
+      page: {
+        size: 10,
+        from: 0
+      },
+      filters: [] = [],
+      sort: {
+        by: '',
+        reverse: false
+      }
+    };
+
+    this.refresh(this.dataGridState);
+  }
+
   private setFilter() {
     if (this.dataGridState.filters) {
       this.queryArgs.where = {};
-
       for (const filter of this.dataGridState.filters) {
         if (filter.property === 'email') {
           this.queryArgs.where.email_contains = filter.value;
@@ -109,10 +139,22 @@ export class UserComponent {
           this.queryArgs.where.birthDate = filter.value;
         } else if (filter.property === 'gender') {
           this.queryArgs.where.gender = filter.value;
-        } else if (filter.property === 'isMale') {
-          this.queryArgs.where.isMale = filter.value;
         } else if (filter.property === 'zipCode') {
           this.queryArgs.where.zipCode = filter.value;
+        }
+      }
+    }
+
+    if (this.filterIsMale !== undefined) {
+      if (this.filterIsMale !== IsMaleFilter.None) {
+        if (this.queryArgs.where === undefined) {
+          this.queryArgs.where = {};
+        }
+
+        if (this.filterIsMale === IsMaleFilter.Male) {
+          this.queryArgs.where.isMale = true;
+        } else {
+          this.queryArgs.where.isMale = false;
         }
       }
     }

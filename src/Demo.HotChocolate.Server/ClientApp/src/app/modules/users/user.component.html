@@ -4,7 +4,7 @@
       <div class="clr-col"></div>
       <div class="clr-col-2">
         <div class="btn-group btn-outline btn-sm">
-          <button class="btn">Reset Filters</button>
+          <button class="btn" (click)="onResetFilters()">Reset Filters</button>
           <button
             class="btn"
             [disabled]="!connection.pageInfo.hasPreviousPage"
@@ -35,7 +35,14 @@
   <clr-dg-column [clrDgField]="'lastName'">Last Name</clr-dg-column>
   <clr-dg-column [clrDgField]="'birthDate'">Birth Date</clr-dg-column>
   <clr-dg-column [clrDgField]="'gender'">Gender</clr-dg-column>
-  <clr-dg-column [clrDgField]="'isMale'">Is Male</clr-dg-column>
+  <clr-dg-column [clrDgField]="'isMale'">Is Male
+
+    <clr-dg-filter>
+      <app-is-male-filter (boolFilterValue)="onIsMaleFilterChange($event)">
+      </app-is-male-filter>
+  </clr-dg-filter>
+
+  </clr-dg-column>
   <clr-dg-column [clrDgField]="'zipCode'">Zip Code</clr-dg-column>
 
   <clr-dg-placeholder>We couldn't find any users!</clr-dg-placeholder>
