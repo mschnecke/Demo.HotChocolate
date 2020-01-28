@@ -1,0 +1,26 @@
+<clr-radio-container>
+  <clr-radio-wrapper>
+    <input
+      type="radio"
+      clrRadio
+      name="stateMale"
+      required
+      [value]="1"
+      [(ngModel)]="optionKeys"
+      (click)="onClick(true)"
+    />
+    <label>Male</label>
+  </clr-radio-wrapper>
+  <clr-radio-wrapper>
+    <input
+      type="radio"
+      clrRadio
+      name="stateFemale"
+      [value]="2"
+      [(ngModel)]="optionKeys"
+      (click)="onClick(false)"
+    />
+    <label>Female</label>
+  </clr-radio-wrapper>
+</clr-radio-container>
+<button class="btn btn-sm btn-link" (click)="reset()">Reset</button>

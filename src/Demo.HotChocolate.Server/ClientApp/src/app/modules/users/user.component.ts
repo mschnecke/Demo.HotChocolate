@@ -9,12 +9,14 @@ import {
   GetUsersQueryVariables,
   UserDtoConnection,
   SortOperationKind,
-  UserDto
+  UserDto,
+  GenderDto
 } from '../../core';
 import {
   IsMaleFilterComponent,
   IsMaleFilter
 } from './components/is-male-filter/is-male-filter.component';
+import { GenderFilter } from './components/gender-filter/gender-filter.component';
 
 @Component({
   selector: 'app-user',
@@ -32,6 +34,7 @@ export class UserComponent {
   };
 
   private filterIsMale: IsMaleFilter;
+  private filterGender: GenderFilter;
   private queryArgs: GetUsersQueryVariables = {};
 
   private dataGridState: ClrDatagridStateInterface = {
@@ -84,6 +87,11 @@ export class UserComponent {
     this.getUsers(this.queryArgs);
   }
 
+  onGenderFilterChange($event) {
+    this.filterGender = $event;
+    this.refresh(this.dataGridState);
+  }
+
   onIsMaleFilterChange($event) {
     this.filterIsMale = $event;
     this.refresh(this.dataGridState);
@@ -108,6 +116,7 @@ export class UserComponent {
   }
 
   onResetFilters() {
+    this.filterGender = GenderFilter.None;
     this.filterIsMale = IsMaleFilter.None;
 
     this.dataGridState = {
@@ -155,6 +164,20 @@ export class UserComponent {
           this.queryArgs.where.isMale = true;
         } else {
           this.queryArgs.where.isMale = false;
+        }
+      }
+    }
+
+    if (this.filterGender !== undefined) {
+      if (this.filterGender !== GenderFilter.None) {
+        if (this.queryArgs.where === undefined) {
+          this.queryArgs.where = {};
+        }
+
+        if (this.filterGender === GenderFilter.Male) {
+          this.queryArgs.where.gender = GenderDto.Male;
+        } else {
+          this.queryArgs.where.gender = GenderDto.Female;
         }
       }
     }

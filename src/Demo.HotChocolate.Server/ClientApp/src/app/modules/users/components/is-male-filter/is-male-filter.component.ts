@@ -10,7 +10,7 @@ export class IsMaleFilterComponent implements OnInit {
   optionKeys = Object.keys(this.option).filter(Number);
 
   @Output()
-  boolFilterValue = new EventEmitter<IsMaleFilter>();
+  isMaleFilterValue = new EventEmitter<IsMaleFilter>();
 
   constructor() {}
 
@@ -20,14 +20,14 @@ export class IsMaleFilterComponent implements OnInit {
 
   reset() {
     this.optionKeys = ['none'];
-    this.boolFilterValue.emit(IsMaleFilter.None);
+    this.isMaleFilterValue.emit(IsMaleFilter.None);
   }
 
   onClick(value: boolean) {
     if (value) {
-      this.boolFilterValue.emit(IsMaleFilter.Male);
+      this.isMaleFilterValue.emit(IsMaleFilter.Male);
     } else {
-      this.boolFilterValue.emit(IsMaleFilter.Female);
+      this.isMaleFilterValue.emit(IsMaleFilter.Female);
     }
   }
 }
