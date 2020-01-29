@@ -48,7 +48,14 @@
       </app-is-male-filter>
     </clr-dg-filter>
   </clr-dg-column>
-  <clr-dg-column [clrDgField]="'zipCode'">Zip Code</clr-dg-column>
+  <clr-dg-column [clrDgField]="'zipCode'"
+    >Zip Code
+    <clr-dg-filter>
+      <app-zip-code-filter
+        (zipCodeFilterValue)="onZipCodeFilterChange($event)"
+      ></app-zip-code-filter>
+    </clr-dg-filter>
+  </clr-dg-column>
 
   <clr-dg-placeholder>We couldn't find any users!</clr-dg-placeholder>
   <clr-dg-row *ngFor="let user of connection.edges">

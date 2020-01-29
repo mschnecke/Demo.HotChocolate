@@ -132,7 +132,7 @@ namespace Demo.HotChocolate.Server
 						.RuleFor(o => o.IsMale, f => f.Person.Gender == Name.Gender.Male)
 						.RuleFor(o => o.Gender, f => f.Person.Gender.ToModel())
 						.RuleFor(o => o.ZipCode,
-							f => f.Random.Int(1000, 9999))
+							f => f.Random.Int(10000, 99999))
 						.RuleFor(o => o.FirstName,
 							f => f.Name.FirstName())
 						.RuleFor(o => o.LastName,
@@ -145,7 +145,7 @@ namespace Demo.HotChocolate.Server
 								new DateTime(2006, 1, 1)))
 					;
 
-				var users = faker.Generate(20);
+				var users = faker.Generate(200);
 				userRepository.AddUsers(users);
 			}
 			catch (Exception exception)

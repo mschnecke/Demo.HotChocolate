@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  ClrDatagridStateInterface,
-  ClrDatagridFilterInterface
+  ClrDatagridStateInterface
 } from '@clr/angular';
 
 import {
@@ -9,13 +8,9 @@ import {
   GetUsersQueryVariables,
   UserDtoConnection,
   SortOperationKind,
-  UserDto,
   GenderDto
 } from '../../core';
-import {
-  IsMaleFilterComponent,
-  IsMaleFilter
-} from './components/is-male-filter/is-male-filter.component';
+import { IsMaleFilter } from './components/is-male-filter/is-male-filter.component';
 import { GenderFilter } from './components/gender-filter/gender-filter.component';
 
 @Component({
@@ -35,6 +30,7 @@ export class UserComponent {
 
   private filterIsMale: IsMaleFilter;
   private filterGender: GenderFilter;
+  private filterZipCode = 0;
   private queryArgs: GetUsersQueryVariables = {};
 
   private dataGridState: ClrDatagridStateInterface = {
@@ -97,6 +93,10 @@ export class UserComponent {
     this.refresh(this.dataGridState);
   }
 
+  onZipCodeFilterChange($event) {
+    console.log($event);
+  }
+
   refresh(state: ClrDatagridStateInterface) {
     console.log('state', state);
     this.dataGridState = state;
@@ -118,6 +118,7 @@ export class UserComponent {
   onResetFilters() {
     this.filterGender = GenderFilter.None;
     this.filterIsMale = IsMaleFilter.None;
+    this.filterZipCode = 0;
 
     this.dataGridState = {
       page: {
