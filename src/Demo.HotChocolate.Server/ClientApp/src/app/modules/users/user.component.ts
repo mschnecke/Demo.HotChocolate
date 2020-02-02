@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  ClrDatagridStateInterface
-} from '@clr/angular';
+import { ClrDatagridStateInterface } from '@clr/angular';
 
 import {
   GetUsersGQL,
@@ -12,6 +10,7 @@ import {
 } from '../../core';
 import { IsMaleFilter } from './components/is-male-filter/is-male-filter.component';
 import { GenderFilter } from './components/gender-filter/gender-filter.component';
+import { ZipCodeRange } from './components/zip-code-filter/zip-code-filter.component';
 
 @Component({
   selector: 'app-user',
@@ -30,7 +29,7 @@ export class UserComponent {
 
   private filterIsMale: IsMaleFilter;
   private filterGender: GenderFilter;
-  private filterZipCode = 0;
+  private filterZipCode: ZipCodeRange;
   private queryArgs: GetUsersQueryVariables = {};
 
   private dataGridState: ClrDatagridStateInterface = {
@@ -94,7 +93,8 @@ export class UserComponent {
   }
 
   onZipCodeFilterChange($event) {
-    console.log($event);
+    this.filterZipCode = $event;
+    this.refresh(this.dataGridState);
   }
 
   refresh(state: ClrDatagridStateInterface) {
@@ -118,7 +118,9 @@ export class UserComponent {
   onResetFilters() {
     this.filterGender = GenderFilter.None;
     this.filterIsMale = IsMaleFilter.None;
-    this.filterZipCode = 0;
+    this.filterZipCode = undefined;
+
+    this.queryArgs.where = null;
 
     this.dataGridState = {
       page: {
@@ -137,7 +139,10 @@ export class UserComponent {
 
   private setFilter() {
     if (this.dataGridState.filters) {
-      this.queryArgs.where = {};
+      if (this.dataGridState.filters.length > 0) {
+        this.queryArgs.where = {};
+      }
+
       for (const filter of this.dataGridState.filters) {
         if (filter.property === 'email') {
           this.queryArgs.where.email_contains = filter.value;
@@ -149,8 +154,6 @@ export class UserComponent {
           this.queryArgs.where.birthDate = filter.value;
         } else if (filter.property === 'gender') {
           this.queryArgs.where.gender = filter.value;
-        } else if (filter.property === 'zipCode') {
-          this.queryArgs.where.zipCode = filter.value;
         }
       }
     }
@@ -181,6 +184,15 @@ export class UserComponent {
           this.queryArgs.where.gender = GenderDto.Female;
         }
       }
+    }
+
+    if (this.filterZipCode !== undefined) {
+      if (this.queryArgs.where === undefined) {
+        this.queryArgs.where = {};
+      }
+
+      this.queryArgs.where.zipCode_gt = this.filterZipCode.minimumValue;
+      this.queryArgs.where.zipCode_lt = this.filterZipCode.maximumValue;
     }
   }
 

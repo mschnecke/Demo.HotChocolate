@@ -1,14 +1,19 @@
-<form novalidate [formGroup]="form">
+<form class="clr-form">
   <clr-input-container>
-    <input
-      clrInput
-      type="text"
-      name="zipCode"
-      (input)="onChange($event.target.value)"
-    />
-    <clr-control-error
-      >Error message that appears after focus is lost and control is
-      invalid</clr-control-error
-    >
+    <input clrInput type="number" name="minVal" [(ngModel)]="minimumValue" />
+    <clr-control-helper>Minimum value</clr-control-helper>
   </clr-input-container>
+  <clr-input-container>
+    <input clrInput type="number" name="maxVal" [(ngModel)]="maximumValue" />
+    <clr-control-helper>Maximum value</clr-control-helper>
+  </clr-input-container>
+  <button
+    class="btn btn-primary"
+    type="submit"
+    (click)="submit()"
+    [disabled]="minimumValue === undefined || maximumValue === undefined"
+  >
+    Apply
+  </button>
+  <button class="btn btn-sm btn-link" (click)="reset()">Reset</button>
 </form>

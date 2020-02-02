@@ -1,33 +1,36 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-zip-code-filter',
   templateUrl: './zip-code-filter.component.html',
   styleUrls: ['./zip-code-filter.component.css']
 })
-export class ZipCodeFilterComponent implements OnInit {
-
+export class ZipCodeFilterComponent {
   @Output()
-  zipCodeFilterValue = new EventEmitter<number>();
+  zipCodeFilterValue = new EventEmitter<ZipCodeRange>();
 
-  form: FormGroup;
+  minimumValue: number;
+  maximumValue: number;
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.form = this.fb.group({
-      zipCode: ['', Validators.pattern('[1-9]{5}')]
-    });
+  reset() {
+    this.minimumValue = undefined;
+    this.maximumValue = undefined;
+    this.zipCodeFilterValue.emit(undefined);
   }
 
-  onChange(value: string): void {
-    // if (Number.isNaN(+value)) {
-    //   this.invalid = true;
-    //   return;
-    // }
+  submit() {
+    const range: ZipCodeRange = {
+      minimumValue: this.minimumValue,
+      maximumValue: this.maximumValue
+    };
 
-    // this.zipCodeFilterValue.emit(+value);
-    // this.invalid = false;
+    this.zipCodeFilterValue.emit(range);
   }
+}
+
+export class ZipCodeRange {
+  minimumValue: number;
+  maximumValue: number;
 }
