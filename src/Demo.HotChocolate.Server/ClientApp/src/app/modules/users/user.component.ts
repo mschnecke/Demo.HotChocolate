@@ -11,6 +11,7 @@ import {
 import { IsMaleFilter } from './components/is-male-filter/is-male-filter.component';
 import { GenderFilter } from './components/gender-filter/gender-filter.component';
 import { ZipCodeRange } from './components/zip-code-filter/zip-code-filter.component';
+import { DateRange } from './components/date-filter/date-filter.component';
 
 @Component({
   selector: 'app-user',
@@ -30,6 +31,7 @@ export class UserComponent {
   private filterIsMale: IsMaleFilter;
   private filterGender: GenderFilter;
   private filterZipCode: ZipCodeRange;
+  private filterBirthDate: DateRange;
   private queryArgs: GetUsersQueryVariables = {};
 
   private dataGridState: ClrDatagridStateInterface = {
@@ -97,6 +99,11 @@ export class UserComponent {
     this.refresh(this.dataGridState);
   }
 
+  onBirthDateFilterChange($event) {
+    this.filterBirthDate = $event;
+    this.refresh(this.dataGridState);
+  }
+
   refresh(state: ClrDatagridStateInterface) {
     console.log('state', state);
     this.dataGridState = state;
@@ -119,6 +126,7 @@ export class UserComponent {
     this.filterGender = GenderFilter.None;
     this.filterIsMale = IsMaleFilter.None;
     this.filterZipCode = undefined;
+    this.filterBirthDate = undefined;
 
     this.queryArgs.where = null;
 
@@ -150,8 +158,6 @@ export class UserComponent {
           this.queryArgs.where.firstName_contains = filter.value;
         } else if (filter.property === 'lastName') {
           this.queryArgs.where.lastName_contains = filter.value;
-        } else if (filter.property === 'birthDate') {
-          this.queryArgs.where.birthDate = filter.value;
         } else if (filter.property === 'gender') {
           this.queryArgs.where.gender = filter.value;
         }
@@ -193,6 +199,15 @@ export class UserComponent {
 
       this.queryArgs.where.zipCode_gt = this.filterZipCode.minimumValue;
       this.queryArgs.where.zipCode_lt = this.filterZipCode.maximumValue;
+    }
+
+    if (this.filterBirthDate !== undefined) {
+      if (this.queryArgs.where === undefined) {
+        this.queryArgs.where = {};
+      }
+
+      this.queryArgs.where.birthDate_gt = this.filterBirthDate.minimumValue;
+      this.queryArgs.where.birthDate_lt = this.filterBirthDate.maximumValue;
     }
   }
 

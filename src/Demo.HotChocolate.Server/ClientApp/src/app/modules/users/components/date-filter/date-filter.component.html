@@ -1,0 +1,19 @@
+<form class="clr-form clr-form-vertical">
+  <clr-date-container>
+    <input clrDate type="date" name="minVal" [(clrDate)]="minimumValue">
+    <clr-control-helper>Minimum date</clr-control-helper>
+  </clr-date-container>
+  <clr-date-container>
+    <input clrDate type="date" name="maxVal" [(clrDate)]="maximumValue" />
+    <clr-control-helper>Maximum date</clr-control-helper>
+  </clr-date-container>
+  <button
+    class="btn btn-primary"
+    type="submit"
+    (click)="submit()"
+    [disabled]="minimumValue === undefined || maximumValue === undefined"
+  >
+    Apply
+  </button>
+  <button class="btn btn-sm btn-link" (click)="reset()">Reset</button>
+</form>
