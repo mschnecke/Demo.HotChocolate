@@ -15,7 +15,7 @@ namespace Demo.HotChocolate.Server.GraphQL
 		}
 
 		[GraphQLDescription("Deletes an user by email.")]
-		public string DeleteUserByEmail(string email, [Service] IUserRepository repository)
+		public string DeleteUserByEmail([GraphQLNonNullType] string email, [Service] IUserRepository repository)
 		{
 			var user = repository.GetUsers().FirstOrDefault(x => x.Email == email);
 
