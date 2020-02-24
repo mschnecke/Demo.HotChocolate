@@ -1,10 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="MappingProfile.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-namespace Demo.HotChocolate.Server.Data.Mapping
+﻿namespace Demo.HotChocolate.Server.Data.Mapping
 {
 	using AutoMapper;
 	using Demo.HotChocolate.Server.Data.Models;

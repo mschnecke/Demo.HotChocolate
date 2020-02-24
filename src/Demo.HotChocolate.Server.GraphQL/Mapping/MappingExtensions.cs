@@ -1,14 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="MappingExtensions.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Demo.HotChocolate.Server.GraphQL.Tests")]
-
-namespace Demo.HotChocolate.Server.GraphQL.Mapping
+﻿namespace Demo.HotChocolate.Server.GraphQL.Mapping
 {
 	using AutoMapper;
 	using Demo.HotChocolate.Server.Data.Models;

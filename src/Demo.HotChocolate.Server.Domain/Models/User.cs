@@ -1,15 +1,6 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="User.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-namespace Demo.HotChocolate.Server.Domain.Models
+﻿namespace Demo.HotChocolate.Server.Domain.Models
 {
 	using System;
-	using System.Linq;
-	using global::HotChocolate;
-	using global::HotChocolate.Types;
 
 	/// <summary>
 	/// The user.

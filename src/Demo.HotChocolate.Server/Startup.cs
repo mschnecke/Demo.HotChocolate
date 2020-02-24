@@ -1,9 +1,3 @@
-// ----------------------------------------------------------------------------------------
-//  <copyright file="Startup.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
 namespace Demo.HotChocolate.Server
 {
 	using System;

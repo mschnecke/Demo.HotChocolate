@@ -1,10 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="SeedDataExtensions.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-namespace Demo.HotChocolate.Server.Extensions
+﻿namespace Demo.HotChocolate.Server.Extensions
 {
 	using Bogus.DataSets;
 	using Demo.HotChocolate.Server.Domain.Models;

@@ -1,10 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="MappingTests.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-namespace Demo.HotChocolate.Server.GraphQL.Tests
+﻿namespace Demo.HotChocolate.Server.GraphQL.Tests
 {
 	using System;
 	using AutoMapper;

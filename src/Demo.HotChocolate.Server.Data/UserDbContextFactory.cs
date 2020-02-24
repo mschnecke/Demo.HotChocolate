@@ -1,10 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="UserDbContextFactory.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-namespace Demo.HotChocolate.Server.Data
+﻿namespace Demo.HotChocolate.Server.Data
 {
 	using System.Reflection;
 	using Microsoft.EntityFrameworkCore;

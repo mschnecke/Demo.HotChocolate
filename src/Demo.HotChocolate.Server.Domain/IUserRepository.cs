@@ -1,24 +1,10 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="IUserRepository.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------------------
-//  <copyright file="IUserRepository.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-namespace Demo.HotChocolate.Server.Domain
+﻿namespace Demo.HotChocolate.Server.Domain
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
 	using Demo.HotChocolate.Server.Domain.Models;
-	using GreenDonut;
 
 	/// <summary>
 	/// The user repository.
@@ -41,7 +27,7 @@ namespace Demo.HotChocolate.Server.Domain
 		/// <summary>
 		/// Gets the users.
 		/// </summary>
-		/// <param name="expression">The expression.</param>
+		/// <param name="keys">The keys.</param>
 		/// <returns></returns>
 		IReadOnlyList<User> GetUsers(IReadOnlyList<string> keys);
 
@@ -62,5 +48,11 @@ namespace Demo.HotChocolate.Server.Domain
 		/// </summary>
 		/// <param name="user">The user.</param>
 		void AddUser(User user);
+
+		/// <summary>
+		/// Deletes the user.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		void DeleteUser(Guid id);
 	}
 }

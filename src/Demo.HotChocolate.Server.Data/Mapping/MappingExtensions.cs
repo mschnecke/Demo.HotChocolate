@@ -1,10 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="MappingExtensions.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Demo.HotChocolate.Server.Data.Tests")]
 
@@ -17,8 +11,6 @@ namespace Demo.HotChocolate.Server.Data.Mapping
 
 	internal static class MappingExtensions
 	{
-
-		internal static IMapper Mapper { get; }
 		static MappingExtensions()
 		{
 			Mapper = new MapperConfiguration(cfg => {
@@ -27,6 +19,8 @@ namespace Demo.HotChocolate.Server.Data.Mapping
 			                                 })
 				.CreateMapper();
 		}
+
+		internal static IMapper Mapper { get; }
 
 		public static User ToModel(this UserDbo entity)
 		{

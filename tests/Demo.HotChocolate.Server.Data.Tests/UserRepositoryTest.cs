@@ -1,25 +1,19 @@
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Linq;
-using System;
-using System.IO;
-using Demo.HotChocolate.Server.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace Demo.HotChocolate.Server.Data.Tests
 {
+	using System;
+	using System.IO;
+	using System.Linq;
+	using Demo.HotChocolate.Server.Domain.Models;
 	using FluentAssertions;
+	using Microsoft.EntityFrameworkCore;
+	using Xunit;
+	using Xunit.Abstractions;
 
 	public class UserRepositoryTest
 	{
-		private UserDbContext dbContext;
-		private UserRepository repository;
-		private readonly ITestOutputHelper output_;
 		public UserRepositoryTest(ITestOutputHelper output)
 		{
-			output_ = output;
+			this.output_ = output;
 			var path = "MyDatabase.db";
 			MoveOldDBFile(path);
 
@@ -29,16 +23,34 @@ namespace Demo.HotChocolate.Server.Data.Tests
 				options => options.MigrationsAssembly(Contants.MigrationsAssembly)
 			);
 
-			dbContext = new UserDbContext(builder.Options);
-			dbContext.Database.Migrate();
+			this.dbContext = new UserDbContext(builder.Options);
+			this.dbContext.Database.Migrate();
 
-			repository = new UserRepository(dbContext);
+			this.repository = new UserRepository(this.dbContext);
+		}
+
+		private readonly UserDbContext dbContext;
+
+		private readonly UserRepository repository;
+
+		private readonly ITestOutputHelper output_;
+
+		private static void MoveOldDBFile(string path)
+		{
+			try
+			{
+				File.Copy(path, $"{path}.old", true);
+				File.Delete(path);
+			}
+			catch (IOException e)
+			{
+			}
 		}
 
 		[Fact]
 		public void Test1()
 		{
-			repository.Clear();
+			this.repository.Clear();
 
 			var user = new User();
 			user.Id = Guid.NewGuid();
@@ -47,15 +59,13 @@ namespace Demo.HotChocolate.Server.Data.Tests
 			user.LastName = "Name2";
 			user.BirthDate = DateTime.Now.Subtract(TimeSpan.FromDays(365));
 
-			repository.AddUser(user);
-			Assert.Equal(user.Email, repository.GetUser(user.Id).ToList().ElementAt(0).Email);
-			Assert.All(repository.GetUsers(user.FirstName), x => x.Email.Equals(user.Email));
-
-
+			this.repository.AddUser(user);
+			Assert.Equal(user.Email, this.repository.GetUser(user.Id).ToList().ElementAt(0).Email);
+			Assert.All(this.repository.GetUsers(user.FirstName), x => x.Email.Equals(user.Email));
 
 			Assert.Equal(
 				1,
-				repository.GetUsers(
+				this.repository.GetUsers(
 					x => x.BirthDate < DateTime.UtcNow.AddDays(-100)
 				).Count()
 			);
@@ -64,7 +74,7 @@ namespace Demo.HotChocolate.Server.Data.Tests
 		[Fact]
 		public void Test2()
 		{
-			repository.Clear();
+			this.repository.Clear();
 
 			var expected = new User();
 			expected.BirthDate = DateTime.Now;
@@ -74,25 +84,13 @@ namespace Demo.HotChocolate.Server.Data.Tests
 			expected.Gender = Gender.Female;
 			expected.ZipCode = 12345;
 
-			repository.AddUser(expected);
-
+			this.repository.AddUser(expected);
 
 			var bla = this.repository.GetUsers(x => x.Email == expected.Email);
 
 			var user = bla.FirstOrDefault();
 
-
 			user.Email.Should().BeEquivalentTo(expected.Email);
-		}
-
-		static void MoveOldDBFile(String path)
-		{
-			try
-			{
-				File.Copy(path, $"{path}.old", true);
-				File.Delete(path);
-			}
-			catch (IOException e) { }
 		}
 	}
 }

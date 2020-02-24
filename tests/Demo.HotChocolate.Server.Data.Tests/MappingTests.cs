@@ -1,10 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="MappingTests.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-namespace Demo.HotChocolate.Server.Data.Tests
+﻿namespace Demo.HotChocolate.Server.Data.Tests
 {
 	using System;
 	using AutoMapper;
@@ -18,10 +12,9 @@ namespace Demo.HotChocolate.Server.Data.Tests
 		public MappingTests()
 		{
 			this.mapper =
-				new MapperConfiguration(cfg =>
-				{
-					cfg.AddProfile<MappingProfile>();
-				})
+				new MapperConfiguration(cfg => {
+					                        cfg.AddProfile<MappingProfile>();
+				                        })
 					.CreateMapper();
 		}
 

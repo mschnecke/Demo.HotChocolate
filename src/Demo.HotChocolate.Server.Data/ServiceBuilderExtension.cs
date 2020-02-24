@@ -1,10 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------
-//  <copyright file="ServiceBuilderExtension.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
-// ReSharper disable once CheckNamespace
+﻿// ReSharper disable once CheckNamespace
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -16,11 +10,12 @@ namespace Microsoft.Extensions.DependencyInjection
 		public static IServiceCollection ConfigureDatabase(this IServiceCollection services, string connectionString)
 		{
 			return services.AddDbContext<UserDbContext>(options =>
-															options.UseSqlite(
-																connectionString,
-																b =>
-																	b.MigrationsAssembly(Contants.MigrationsAssembly)),
-				ServiceLifetime.Transient, ServiceLifetime.Transient);
+				                                            options.UseSqlite(
+					                                            connectionString,
+					                                            b =>
+						                                            b.MigrationsAssembly(Contants.MigrationsAssembly)),
+				ServiceLifetime.Transient,
+				ServiceLifetime.Transient);
 		}
 	}
 }

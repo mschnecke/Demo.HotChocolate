@@ -1,9 +1,3 @@
-// ----------------------------------------------------------------------------------------
-//  <copyright file="Program.cs" company="pisum.net">
-//     Copyright (c) 2020, pisum.net. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------------------------
-
 namespace Demo.HotChocolate.Server
 {
 	using Microsoft.AspNetCore.Hosting;
