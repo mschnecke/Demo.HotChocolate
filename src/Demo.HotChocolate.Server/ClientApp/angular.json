@@ -158,5 +158,8 @@
       }
     }
   },
-  "defaultProject": "demo-hotchocolate"
+  "defaultProject": "demo-hotchocolate",
+  "cli": {
+    "analytics": false
+  }
 }
