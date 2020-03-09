@@ -5,7 +5,6 @@ namespace Microsoft.Extensions.DependencyInjection
 	using Demo.HotChocolate.Server.GraphQL;
 	using HotChocolate;
 	using HotChocolate.AspNetCore;
-	using HotChocolate.AspNetCore.Voyager;
 	using HotChocolate.Execution.Configuration;
 	using Microsoft.AspNetCore.Builder;
 
