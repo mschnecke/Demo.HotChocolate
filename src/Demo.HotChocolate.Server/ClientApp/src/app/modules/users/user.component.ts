@@ -122,29 +122,6 @@ export class UserComponent {
     this.getUsers(this.queryArgs);
   }
 
-  onResetFilters() {
-    this.filterGender = GenderFilter.None;
-    this.filterIsMale = IsMaleFilter.None;
-    this.filterZipCode = undefined;
-    this.filterBirthDate = undefined;
-
-    this.queryArgs.where = null;
-
-    this.dataGridState = {
-      page: {
-        size: 10,
-        from: 0
-      },
-      filters: [] = [],
-      sort: {
-        by: '',
-        reverse: false
-      }
-    };
-
-    this.refresh(this.dataGridState);
-  }
-
   private setFilter() {
     if (this.dataGridState.filters) {
       if (this.dataGridState.filters.length > 0) {
