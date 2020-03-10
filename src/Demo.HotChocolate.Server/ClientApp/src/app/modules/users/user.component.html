@@ -1,34 +1,4 @@
 <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
-  <clr-dg-action-bar>
-    <div class="clr-row">
-      <div class="clr-col"></div>
-      <div class="clr-col-2">
-        <div class="btn-group btn-outline btn-sm">
-          <button
-            class="btn"
-            [disabled]="!connection.pageInfo.hasPreviousPage"
-            (click)="onPreviousPage()"
-          >
-            <clr-icon
-              shape="caret"
-              style="transform: rotate(270deg);"
-            ></clr-icon>
-          </button>
-          <button
-            class="btn"
-            [disabled]="!connection.pageInfo.hasNextPage"
-            (click)="onNextPage()"
-          >
-            <clr-icon
-              shape="caret"
-              style="transform: rotate(90deg);"
-            ></clr-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-  </clr-dg-action-bar>
-
   <clr-dg-column [clrDgField]="'email'">E-Mail</clr-dg-column>
   <clr-dg-column [clrDgField]="'firstName'">First Name</clr-dg-column>
   <clr-dg-column [clrDgField]="'lastName'">Last Name</clr-dg-column>
@@ -73,20 +43,18 @@
     <clr-dg-cell>{{ user.node.zipCode }}</clr-dg-cell>
   </clr-dg-row>
 
-  <!-- <clr-dg-footer>
-    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+  <clr-dg-footer>
+    <clr-dg-pagination
+      #pagination
+      [clrDgPageSize]="10"
+      [clrDgTotalItems]="connection.totalCount"
+      [clrDgPageInputDisabled]="true"
+    >
       <clr-dg-page-size [clrPageSizeOptions]="[10, 20, 50, 100]"
         >Users per page</clr-dg-page-size
       >
+      {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
       {{ connection.totalCount }} users
     </clr-dg-pagination>
-  </clr-dg-footer> -->
-
-  <clr-dg-footer>
-    <clr-dg-pagination #pagination [clrDgPageSize]="10" [clrDgTotalItems]="connection.totalCount" [clrDgPageInputDisabled]="true">
-        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{connection.totalCount}} users
-    </clr-dg-pagination>
-</clr-dg-footer>
+  </clr-dg-footer>
 </clr-datagrid>

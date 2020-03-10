@@ -48,42 +48,6 @@ export class UserComponent {
 
   constructor(private getClient: GetUsersGQL) {}
 
-  onPreviousPage() {
-    // reset query arguments
-    this.queryArgs = {};
-
-    // paging
-    this.queryArgs.before = this.connection.pageInfo.startCursor;
-    this.queryArgs.last = this.dataGridState.page.size;
-
-    // filtering
-    this.setFilter();
-
-    // sorting
-    this.setSorting();
-
-    this.getUsers(this.queryArgs);
-  }
-
-  onNextPage() {
-    // reset query arguments
-    this.queryArgs = {};
-
-    // paging
-    this.queryArgs.after = this.connection.pageInfo.endCursor;
-    this.queryArgs.first = this.dataGridState.page.size;
-    this.queryArgs.before = undefined;
-    this.queryArgs.last = undefined;
-
-    // filtering
-    this.setFilter();
-
-    // sorting
-    this.setSorting();
-
-    this.getUsers(this.queryArgs);
-  }
-
   onGenderFilterChange($event) {
     this.filterGender = $event;
     this.refresh(this.dataGridState);
@@ -105,13 +69,39 @@ export class UserComponent {
   }
 
   refresh(state: ClrDatagridStateInterface) {
-    console.log('state', state);
-    this.dataGridState = state;
-
     this.queryArgs = {};
 
     // paging
-    this.queryArgs.first = this.dataGridState.page.size;
+    if (state.page.current === this.dataGridState.page.current + 1) {
+      // forward
+      this.queryArgs.after = this.connection.pageInfo.endCursor;
+      this.queryArgs.first = this.dataGridState.page.size;
+      this.queryArgs.before = undefined;
+      this.queryArgs.last = undefined;
+    } else if (state.page.current === this.dataGridState.page.current - 1) {
+      // backward
+      this.queryArgs.after = undefined;
+      this.queryArgs.first = undefined;
+      this.queryArgs.before = this.connection.pageInfo.startCursor;
+      this.queryArgs.last = this.dataGridState.page.size;
+    } else if (
+      state.page.to + 1 === this.connection.totalCount &&
+      this.connection.totalCount !== 0
+    ) {
+      // last
+      this.queryArgs.after = undefined;
+      this.queryArgs.first = undefined;
+      this.queryArgs.before = undefined;
+      this.queryArgs.last = this.dataGridState.page.size;
+    } else {
+      // first
+      this.queryArgs.after = undefined;
+      this.queryArgs.first = this.dataGridState.page.size;
+      this.queryArgs.before = undefined;
+      this.queryArgs.last = undefined;
+    }
+
+    this.dataGridState = state;
 
     // filtering
     this.setFilter();
